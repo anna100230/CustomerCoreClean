@@ -1,0 +1,6 @@
+@DotNetCoreClean.API_HostAddress = http://localhost:5193
+
+GET {{DotNetCoreClean.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
