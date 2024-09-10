@@ -1,4 +1,6 @@
 ﻿using DotNetCoreClean.Application;
+using DotNetCoreClean.Domain;
+using DotNetCoreClean.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -62,5 +64,32 @@ namespace Member.API.Controllers
 
             return NoContent(); // 204 No Content indicates successful deletion with no content returned
         }
+        [HttpPost]
+        public async Task<IActionResult> AddCustomer([FromBody] Customer customer)
+        {
+            if (customer == null)
+            {
+                return BadRequest("Customer data cannot be null.");
+            }
+
+            try
+            {
+                // Try to add the customer
+                var addedCustomer = await memberService.AddCustomerAsync(customer);
+                return CreatedAtAction(nameof(GetCustomerDetails), new { customerNumber = addedCustomer.CustomerNumber }, addedCustomer);
+            }
+            catch (ArgumentException ex)
+            {
+                // Handle case where the customer already exists
+                return Conflict(ex.Message); // 409 Conflict
+            }
+            catch (Exception ex)
+            {
+                // Handle any other exceptions
+                // Log the exception details here
+                return StatusCode(500, "An error occurred while processing your request.");
+            }
+        }
+
     }
 }

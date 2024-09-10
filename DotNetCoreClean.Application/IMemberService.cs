@@ -9,6 +9,7 @@ namespace DotNetCoreClean.Application
     public interface IMemberService
     {
         List<Domain.Customer> GetAllCustomer();
+        Task<Domain.Customer> AddCustomerAsync(Domain.Customer customer);
         Task<Domain.Customer> ExecuteAsync(int customerNumber);
         Task<bool> UpdateCustomerAsync(int customerNumber, Domain.Customer customer);
         Task<bool> DeleteCustomerAsync(int customerNumber);

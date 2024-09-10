@@ -55,5 +55,19 @@ namespace DotNetCoreClean.Application
 
             return true;
         }
+
+        public async Task<Domain.Customer> AddCustomerAsync(Domain.Customer customer)
+        {
+            // Check if customer already exists based on CustomerNumber
+            var existingCustomer = await memberRepository.GetCustomerByNumberAsync(customer.CustomerNumber);
+
+            if (existingCustomer != null)
+            {
+                throw new ArgumentException("Customer with the same CustomerNumber already exists.");
+            }
+
+            await memberRepository.AddCustomerAsync(customer);
+            return customer;
         }
+    }
 }

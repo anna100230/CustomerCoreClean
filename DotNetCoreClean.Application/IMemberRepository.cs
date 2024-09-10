@@ -13,5 +13,6 @@ namespace DotNetCoreClean.Application
         Task<Customer> GetCustomerByNumberAsync(int customerNumber);
         Task UpdateCustomerAsync(Domain.Customer customer);
         Task DeleteCustomerAsync(Domain.Customer customer);
+        Task<Customer> AddCustomerAsync(Customer customer);
     }
 }
